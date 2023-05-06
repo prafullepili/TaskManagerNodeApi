@@ -13,8 +13,8 @@ MONGO_URI = `mongodb+srv://${USERNAME}:${PASSWORD}@nodeexpressproject.${MONGO_OB
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(express.static('./public'))
 app.use('/api/v1/tasks', tasksRoutes)
-
 const port = 3000
 
 const start = async () => {
