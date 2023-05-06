@@ -34,10 +34,6 @@ const getTask = async (req, res) => {
     res.send('get single task');
 }
 
-
-const updateTask = (req, res) => {
-    res.send('update task');
-}
 const deleteTask = async (req, res) => {
     try {
         const { id: taskID } = req.params
@@ -50,6 +46,26 @@ const deleteTask = async (req, res) => {
         return res.status(404).json(error)
     }
 }
+
+const updateTask = async (req, res) => {
+    try {
+        const { id: taskID } = req.params
+        const task = await Task.findOneAndUpdate({ _id: taskID }, req.body, {
+            new: true,
+            // returnOriginal: false,
+            runValidators: true,
+            // rawResult: true
+        })
+        if (!task) {
+            return res.status(404).json({ msg: `No task with id:${taskID}` })
+        }
+        res.status(200).json({ id: taskID, data: task });
+
+    } catch (error) {
+        return res.status(404).json(error)
+    }
+}
+
 
 module.exports = {
     getAllTasks,
